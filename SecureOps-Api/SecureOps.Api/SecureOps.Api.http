@@ -1,0 +1,47 @@
+@SecureOps.Api_HostAddress = https://localhost:7030
+
+GET {{SecureOps.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+Authorization: Bearer CfDJ8OVJMKN_dJNIpoWgcwXXMRryWL4zXNHHYJU-ZGtiVNqzLx-i1TXMB06WSPIjJbaLYKztMytuwck6e4zAAb5FWa3XyzOUZj8dTmPwKG5M63nD6Eks8wEN7hjOO6xii-rmCJnkMtLOZ0luSZfzOPmpc-ynowx5wvNFGgGm0gZIzRG4lYJ3C6vjMDuKs5FhdbjwWw7ysWCIat_Q3soTWJmUgt_YJRF-TvhstwWwEZO_gFZb0pqBx-j3VIuM7swoxFwo9AUQxAiX7WaM61WwSGOAZJgJLj5mTx3EkLGC5eYmCljFBWovXJQsQilWwJvqWN3lkGLNFht_8YYb-7sOSjoRdQBIifpWcjdEdGzYEiL1yNNVH2o14OyulkTVYdIgTPm5fhAFAeSHxGSewI0SkHAKmZlGAPtsUGLQ_UT4L0cA2eRjzUBxVbpVOGBvCziKof3ECyamP_-jVO5JpYNrcMVju09LdeV4sHvO5DCKS3OzQ76cWhHpR0mun62knd6jRo7YAXE_EerXgisROod-R1umHqReMnHltTZBSxwfw5ecStixTUlJig6q0ZA568ACv9SWexGCiPY2hLDeMM-Oc9TigeM_8J78p6BCtK2u-59U7XmZbivqOVhQT_Rl55ChlA4fVxVKK7gBPbU0sIKqVn8fpSSZ3dC0l3KKKI16xDHjxiG9
+
+###
+
+POST {{SecureOps.Api_HostAddress}}/authentication/register
+Content-Type: application/json
+
+{
+  "Email" : "khalid.malate@google.com",
+  "Password": "#e4u8IQEtroh",
+  "FirstName": "Khalid",
+  "LastName": "Malate",
+  "SSNLastFour": "1234"
+}
+
+### Login (This will give you a Cookie or Token)
+# If using Identity API Endpoints, this returns a Cookie by default
+# or a Bearer token if you ask for it.
+
+POST {{SecureOps.Api_HostAddress}}/login
+Content-Type: application/json
+
+{
+  "email": "khalid.malate@google.com",
+  "password": "#e4u8IQEtroh"
+}
+
+###
+
+
+GET {{SecureOps.Api_HostAddress}}/fielddefinition
+
+###
+
+POST {{SecureOps.Api_HostAddress}}/fielddefinition
+Content-Type: application/json
+
+{
+  "label" : "test",
+  "FieldTypeId": 1
+}
+
+###

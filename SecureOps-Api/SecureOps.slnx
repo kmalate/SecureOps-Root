@@ -1,0 +1,13 @@
+<Solution>
+  <Project Path="SecureOps.Api/SecureOps.Api.csproj" Id="763fa88e-e400-4e3f-b571-04690ba050ac">
+    <BuildDependency Project="SecureOps.Application/SecureOps.Application.csproj" />
+    <BuildDependency Project="SecureOps.Infrastructure/SecureOps.Infrastructure.csproj" />
+  </Project>
+  <Project Path="SecureOps.Application/SecureOps.Application.csproj" Id="c09076e9-4694-4515-8daf-4dc21acc56d0">
+    <BuildDependency Project="SecureOps.Domain/SecureOps.Domain.csproj" />
+  </Project>
+  <Project Path="SecureOps.Domain/SecureOps.Domain.csproj" Id="3e73be4a-a4e2-4604-9663-a3df8ab27b0b" />
+  <Project Path="SecureOps.Infrastructure/SecureOps.Infrastructure.csproj" Id="253a6dae-83e2-4b4a-8dcd-14b0609837d7">
+    <BuildDependency Project="SecureOps.Domain/SecureOps.Domain.csproj" />
+  </Project>
+</Solution>
