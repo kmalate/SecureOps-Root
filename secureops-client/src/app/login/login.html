@@ -1,0 +1,8 @@
+<div class="container">
+<h2>SecureOps Login</h2>
+<form (ngSubmit)="onSubmit()">
+    <input [(ngModel)]="loginData.email" name="email" placeholder="email" required />
+    <input [(ngModel)]="loginData.password" name="password" type="password" placeholder="Password" required />
+    <button type="submit">Login</button>
+</form>
+</div>
