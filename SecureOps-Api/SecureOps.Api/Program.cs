@@ -1,14 +1,45 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SecureOps.Application;
 using SecureOps.Application.Intefaces;
 using SecureOps.Domain.Entities;
 using SecureOps.Infrastructure;
 using SecureOps.Infrastructure.Repository;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'WebApplication1Context' not found.")));
+
+// Configure JWT authentication
+var jwtSettings = builder.Configuration.GetSection("Jwt");
+
+var issuer = jwtSettings["Issuer"] ?? throw new InvalidOperationException("JWT configuration 'Jwt:Issuer' is missing.");
+var audience = jwtSettings["Audience"] ?? throw new InvalidOperationException("JWT configuration 'Jwt:Audience' is missing.");
+var keyString = jwtSettings["Key"] ?? throw new InvalidOperationException("JWT configuration 'Jwt:Key' is missing.");
+var key = Encoding.UTF8.GetBytes(keyString);
+
+builder.Services.AddAuthentication(options => {
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options => {
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = issuer,
+
+        ValidateAudience = true,
+        ValidAudience = audience,
+
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+
+        ClockSkew = TimeSpan.Zero // Removes the default 5-minute grace period for expiry
+    };
+});
 
 //Add Identity services to the container
 builder.Services.AddAuthorization();
@@ -47,7 +78,7 @@ using (var scope = app.Services.CreateScope())
     SeedData.Initialize(services);
 }
 
-app.MapIdentityApi<Employee>();
+//app.MapIdentityApi<Employee>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

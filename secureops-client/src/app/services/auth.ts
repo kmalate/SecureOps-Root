@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { tap } from 'rxjs';
@@ -10,29 +10,57 @@ import {jwtDecode} from 'jwt-decode';
 })
 export class Auth {
   private http = inject(HttpClient);
+  currentUser = signal<any>(null);
+
+  constructor() {
+    const token = this.getAccessToken();
+    if (token) {
+      this.decodeAndSetUser(token);
+    }
+  }
+
+  private decodeAndSetUser(token: string) {
+    try {
+      const decoded: any = jwtDecode(token);
+      // 'decoded' will contain your C# Claims (sub, name, role, etc.)
+      this.currentUser.set(decoded);
+    } catch (e) {
+      this.logout();
+    }
+  }
 
   login(email: string, password: string) {
-    return this.http.post<TokenResponse>(`${environment.apiUrl}/login`, { email, password })
+    return this.http.post<TokenResponse>(`${environment.apiUrl}/authentication/login`, { email, password })
       .pipe(
         tap((response: TokenResponse) => {
-          localStorage.setItem('accessToken', response.accessToken);
-          localStorage.setItem('refreshToken', response.refreshToken);
-          var test = jwtDecode(response.accessToken);
-          // var test3 = '';
+          localStorage.setItem('accessToken', response.token);
+          this.decodeAndSetUser(response.token);
         }
       ));
   }
 
   logout() {
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    this.currentUser.set(null);
   }
 
   getAccessToken(): string | null {
     return localStorage.getItem('accessToken');
   }
 
-  getRefreshToken(): string | null {
-    return localStorage.getItem('refreshToken');
+  isAuthenticated(): boolean {
+    const token = this.getAccessToken();
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const decoded: any = jwtDecode(token);
+      const now = Date.now().valueOf() / 1000; // Current time in seconds
+      return decoded.exp > now; // Check if token is still valid
+    } catch (e) {
+      return false; // If token is invalid, treat as not authenticated
+    }
   }
+
 }
