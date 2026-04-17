@@ -1,0 +1,15 @@
+<div class="d-flex flex-column vh-100">
+  <app-header class="sticky-top"></app-header>
+
+  <div class="d-flex flex-grow-1 overflow-hidden">
+    <app-sidebar class="bg-dark border-end d-none d-md-block" style="width: 280px;"></app-sidebar>
+
+    <main class="flex-grow-1 overflow-auto p-4 bg-light">
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+
+  <app-footer></app-footer>
+</div>
