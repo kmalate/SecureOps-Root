@@ -1,6 +1,6 @@
 ﻿using SecureOps.Application.DTO;
 
-namespace SecureOps.Application.Intefaces
+namespace SecureOps.Application.Interfaces
 {
     public interface IFieldDefinitionService
     {

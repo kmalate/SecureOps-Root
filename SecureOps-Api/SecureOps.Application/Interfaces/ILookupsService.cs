@@ -1,9 +1,6 @@
 ﻿using SecureOps.Application.DTO;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace SecureOps.Application.Intefaces
+namespace SecureOps.Application.Interfaces
 {
     /// <summary>
     /// Provides lookup operations for read-only reference data used across the application.
@@ -39,5 +36,20 @@ namespace SecureOps.Application.Intefaces
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>An enumerable of <see cref="IncidentSeverityDTO"/> records.</returns>
         Task<IEnumerable<IncidentSeverityDTO>> GetAllIncidentSeverityAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves an involvement type by its identifier.
+        /// </summary>
+        /// <param name="id">The identifier of the involvement type.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The matching <see cref="InvolvementTypeDTO"/>, or <c>null</c> if not found.</returns>
+        Task<InvolvementTypeDTO?> GetInvolvementTypeByIdAsync(int id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves all involvement types.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>An enumerable of <see cref="InvolvementTypeDTO"/> records.</returns>
+        Task<IEnumerable<InvolvementTypeDTO>> GetAllInvolvementTypesAsync(CancellationToken cancellationToken = default);
     }
 }

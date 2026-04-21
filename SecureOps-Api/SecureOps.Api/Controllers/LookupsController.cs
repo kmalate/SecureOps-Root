@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using SecureOps.Application.Intefaces;
+using SecureOps.Application.Interfaces;
 using SecureOps.Application.DTO;
 using System.Collections.Generic;
 using System.Threading;
@@ -50,6 +50,18 @@ namespace SecureOps.Api.Controllers
         }
 
         /// <summary>
+        /// Retrieves all involvement types.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>List of involvement type DTOs.</returns>
+        [HttpGet("involvement-types")]
+        public async Task<ActionResult<IEnumerable<InvolvementTypeDTO>>> GetInvolvementTypes(CancellationToken cancellationToken)
+        {
+            var items = await _lookupsService.GetAllInvolvementTypesAsync(cancellationToken);
+            return Ok(items);
+        }
+
+        /// <summary>
         /// Retrieves a single incident category by id.
         /// </summary>
         /// <param name="id">Identifier of the incident category.</param>
@@ -73,6 +85,20 @@ namespace SecureOps.Api.Controllers
         public async Task<ActionResult<IncidentSeverityDTO>> GetIncidentSeverityById(int id, CancellationToken cancellationToken)
         {
             var item = await _lookupsService.GetIncidentSeverityByIdAsync(id, cancellationToken);
+            if (item is null) return NotFound();
+            return Ok(item);
+        }
+
+        /// <summary>
+        /// Retrieves a single involvement type by id.
+        /// </summary>
+        /// <param name="id">Identifier of the involvement type.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The matching involvement type DTO or 404.</returns>
+        [HttpGet("involvement-types/{id:int}")]
+        public async Task<ActionResult<InvolvementTypeDTO>> GetInvolvementTypeById(int id, CancellationToken cancellationToken)
+        {
+            var item = await _lookupsService.GetInvolvementTypeByIdAsync(id, cancellationToken);
             if (item is null) return NotFound();
             return Ok(item);
         }

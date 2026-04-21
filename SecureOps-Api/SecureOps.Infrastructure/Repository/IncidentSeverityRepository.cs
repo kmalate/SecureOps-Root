@@ -1,6 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-using SecureOps.Application.Intefaces;
+using SecureOps.Application.Interfaces;
 using SecureOps.Domain.Entities;
 
 namespace SecureOps.Infrastructure.Repository

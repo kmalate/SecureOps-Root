@@ -1,7 +1,7 @@
 ﻿using SecureOps.Domain.Entities;
 
 
-namespace SecureOps.Application.Intefaces
+namespace SecureOps.Application.Interfaces
 {
     public interface IFieldDefinitionRepository
     {

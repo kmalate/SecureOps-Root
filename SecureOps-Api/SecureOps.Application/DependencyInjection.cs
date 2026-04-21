@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SecureOps.Application.Intefaces;
+using SecureOps.Application.Interfaces;
 using SecureOps.Application.Services;
 
 namespace SecureOps.Application

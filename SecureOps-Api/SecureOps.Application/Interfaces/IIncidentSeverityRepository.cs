@@ -1,10 +1,7 @@
 ﻿
 using SecureOps.Domain.Entities;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace SecureOps.Application.Intefaces
+namespace SecureOps.Application.Interfaces
 {
     /// <summary>
     /// Repository abstraction for reading incident severity data.

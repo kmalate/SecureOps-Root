@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SecureOps.Application;
-using SecureOps.Application.Intefaces;
+using SecureOps.Application.Interfaces;
 using SecureOps.Domain.Entities;
 using SecureOps.Infrastructure;
 using SecureOps.Infrastructure.Repository;
@@ -47,6 +47,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<IFieldDefinitionRepository, FieldDefinitionRepository>();
 builder.Services.AddScoped<IIncidentCategoryRepository, IncidentCategoryRepository>();
 builder.Services.AddScoped<IIncidentSeverityRepository, IncidentSeverityRepository>();
+builder.Services.AddScoped<IInvolvementTypeRepository, InvolvementTypeRepository>();
 builder.Services.AddApplicationServices(); // From Application project
 
 builder.Services.AddIdentityApiEndpoints<Employee>()

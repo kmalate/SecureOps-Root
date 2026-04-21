@@ -1,5 +1,5 @@
 ﻿
-namespace SecureOps.Application.Intefaces
+namespace SecureOps.Application.Interfaces
 {
     public interface ISecurityService
     {

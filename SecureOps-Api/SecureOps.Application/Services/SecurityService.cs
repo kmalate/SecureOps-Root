@@ -1,4 +1,4 @@
-﻿using SecureOps.Application.Intefaces;
+﻿using SecureOps.Application.Interfaces;
 using System.Security.Cryptography;
 
 namespace SecureOps.Application.Services

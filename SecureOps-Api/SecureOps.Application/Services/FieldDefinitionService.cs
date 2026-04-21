@@ -1,5 +1,5 @@
 ﻿using SecureOps.Application.DTO;
-using SecureOps.Application.Intefaces;
+using SecureOps.Application.Interfaces;
 using SecureOps.Domain.Entities;
 using System.Text.Json;
 
