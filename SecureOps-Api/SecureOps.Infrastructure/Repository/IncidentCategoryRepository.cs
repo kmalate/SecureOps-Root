@@ -23,7 +23,7 @@ namespace SecureOps.Infrastructure.Repository
         /// <inheritdoc />
         public async Task<IEnumerable<IncidentCategory>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _db.Set<IncidentCategory>().ToListAsync(cancellationToken);
+            return await _db.Set<IncidentCategory>().ToArrayAsync(cancellationToken);
         }
 
         /// <inheritdoc />

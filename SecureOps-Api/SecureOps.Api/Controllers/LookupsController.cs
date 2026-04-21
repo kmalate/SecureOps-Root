@@ -38,6 +38,18 @@ namespace SecureOps.Api.Controllers
         }
 
         /// <summary>
+        /// Retrieves all incident severities.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>List of incident severity DTOs.</returns>
+        [HttpGet("incident-severities")]
+        public async Task<ActionResult<IEnumerable<IncidentSeverityDTO>>> GetIncidentSeverities(CancellationToken cancellationToken)
+        {
+            var items = await _lookupsService.GetAllIncidentSeverityAsync(cancellationToken);
+            return Ok(items);
+        }
+
+        /// <summary>
         /// Retrieves a single incident category by id.
         /// </summary>
         /// <param name="id">Identifier of the incident category.</param>
@@ -47,6 +59,20 @@ namespace SecureOps.Api.Controllers
         public async Task<ActionResult<IncidentCategoryDTO>> GetIncidentCategoryById(int id, CancellationToken cancellationToken)
         {
             var item = await _lookupsService.GetIncidentCategoryByIdAsync(id, cancellationToken);
+            if (item is null) return NotFound();
+            return Ok(item);
+        }
+
+        /// <summary>
+        /// Retrieves a single incident severity by id.
+        /// </summary>
+        /// <param name="id">Identifier of the incident severity.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The matching incident severity DTO or 404.</returns>
+        [HttpGet("incident-severities/{id:int}")]
+        public async Task<ActionResult<IncidentSeverityDTO>> GetIncidentSeverityById(int id, CancellationToken cancellationToken)
+        {
+            var item = await _lookupsService.GetIncidentSeverityByIdAsync(id, cancellationToken);
             if (item is null) return NotFound();
             return Ok(item);
         }

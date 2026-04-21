@@ -24,5 +24,20 @@ namespace SecureOps.Application.Intefaces
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>An enumerable of <see cref="IncidentCategoryDTO"/> records.</returns>
         Task<IEnumerable<IncidentCategoryDTO>> GetAllIncidentCategoryAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves an incident severity by its identifier.
+        /// </summary>
+        /// <param name="id">The identifier of the incident severity.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The matching <see cref="IncidentSeverityDTO"/>, or <c>null</c> if not found.</returns>
+        Task<IncidentSeverityDTO?> GetIncidentSeverityByIdAsync(int id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves all incident severities.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>An enumerable of <see cref="IncidentSeverityDTO"/> records.</returns>
+        Task<IEnumerable<IncidentSeverityDTO>> GetAllIncidentSeverityAsync(CancellationToken cancellationToken = default);
     }
 }

@@ -46,6 +46,7 @@ builder.Services.AddAuthorization();
 // Add services from the other projects
 builder.Services.AddScoped<IFieldDefinitionRepository, FieldDefinitionRepository>();
 builder.Services.AddScoped<IIncidentCategoryRepository, IncidentCategoryRepository>();
+builder.Services.AddScoped<IIncidentSeverityRepository, IncidentSeverityRepository>();
 builder.Services.AddApplicationServices(); // From Application project
 
 builder.Services.AddIdentityApiEndpoints<Employee>()
