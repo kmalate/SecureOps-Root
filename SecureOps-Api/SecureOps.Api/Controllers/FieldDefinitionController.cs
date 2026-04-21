@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using SecureOps.Application.Intefaces;
 using SecureOps.Application.DTO;
 
@@ -31,6 +32,8 @@ namespace SecureOps.Api.Controllers
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>List of <see cref="FieldDefinitionDTO"/>.</returns>
+        
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FieldDefinitionDTO>>> GetAll(CancellationToken cancellationToken)
         {
@@ -44,6 +47,7 @@ namespace SecureOps.Api.Controllers
         /// <param name="id">The identifier of the field definition.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The matching <see cref="FieldDefinitionDTO"/> if found; otherwise 404.</returns>
+        [Authorize]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<FieldDefinitionDTO>> GetById(int id, CancellationToken cancellationToken)
         {
@@ -64,6 +68,7 @@ namespace SecureOps.Api.Controllers
         /// <param name="dto">The field definition to create.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Created <see cref="FieldDefinitionDTO"/> with location header.</returns>
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<FieldDefinitionDTO>> Create([FromBody] FieldDefinitionDTO dto, CancellationToken cancellationToken)
         {
@@ -78,6 +83,7 @@ namespace SecureOps.Api.Controllers
         /// <param name="dto">The updated values.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>204 No Content on success, 400 for bad request, 404 if not found.</returns>
+        [Authorize]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] FieldDefinitionDTO dto, CancellationToken cancellationToken)
         {
@@ -100,6 +106,7 @@ namespace SecureOps.Api.Controllers
         /// <param name="id">The identifier to delete.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>204 No Content on success, 404 if not found.</returns>
+        [Authorize]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {

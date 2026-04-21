@@ -45,6 +45,7 @@ builder.Services.AddAuthentication(options => {
 builder.Services.AddAuthorization();
 // Add services from the other projects
 builder.Services.AddScoped<IFieldDefinitionRepository, FieldDefinitionRepository>();
+builder.Services.AddScoped<IIncidentCategoryRepository, IncidentCategoryRepository>();
 builder.Services.AddApplicationServices(); // From Application project
 
 builder.Services.AddIdentityApiEndpoints<Employee>()
