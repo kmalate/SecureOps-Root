@@ -21,7 +21,7 @@ namespace SecureOps.Domain.Entities
         public Employee? CreatedBy { get; set; }
         public int ReportedById { get; set; }
         [Required,ForeignKey("ReportedById")]
-        public required Employee ReportedBy { get; set; }
+        public Employee? ReportedBy { get; set; }
         public ICollection<IncidentParticipant> Subjects { get; set; } = [];
         public string CaseNumber { get; set; } = string.Empty;
         public Dictionary<string, object> Metadata { get; set; } = [];

@@ -48,6 +48,7 @@ builder.Services.AddScoped<IFieldDefinitionRepository, FieldDefinitionRepository
 builder.Services.AddScoped<IIncidentCategoryRepository, IncidentCategoryRepository>();
 builder.Services.AddScoped<IIncidentSeverityRepository, IncidentSeverityRepository>();
 builder.Services.AddScoped<IInvolvementTypeRepository, InvolvementTypeRepository>();
+builder.Services.AddScoped<IIncidentRepository, IncidentRepository>();
 builder.Services.AddApplicationServices(); // From Application project
 
 builder.Services.AddIdentityApiEndpoints<Employee>()
