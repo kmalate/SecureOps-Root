@@ -1,5 +1,6 @@
 ﻿
 
+using SecureOps.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -26,5 +27,6 @@ namespace SecureOps.Domain.Entities
         public string CaseNumber { get; set; } = string.Empty;
         public Dictionary<string, object> Metadata { get; set; } = [];
         public DateTime CreatedAt { get; set; }
+        public IncidentStatus Status { get; set; }
     }
 }
