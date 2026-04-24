@@ -13,6 +13,7 @@ namespace SecureOps.Application
             services.AddScoped<IFieldDefinitionService, FieldDefinitionService>();
             services.AddScoped<ILookupsService, LookupsService>();
             services.AddScoped<IIncidentService, IncidentService>();
+            services.AddScoped<IPersonService, PersonService>();
 
             // If you use AutoMapper or FluentValidation later, add them here too
             // services.AddAutoMapper(Assembly.GetExecutingAssembly());

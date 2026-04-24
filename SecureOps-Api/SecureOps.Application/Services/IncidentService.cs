@@ -100,6 +100,42 @@ namespace SecureOps.Application.Services
         }
 
         /// <summary>
+        /// <inheritdoc />
+        /// </summary>
+        public async Task<IncidentParticipantDTO> AddParticipantAsync(IncidentParticipantDTO dto, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(dto);
+
+            var entity = new IncidentParticipant
+            {
+                IncidentId = dto.IncidentId,
+                PersonId = dto.PersonId,
+                InvolvementTypeId = dto.InvolvementTypeId
+            };
+
+            var added = await _repository.AddParticipantAsync(entity, cancellationToken);
+
+            return MapParticipantToDTO(added);
+        }
+
+        /// <summary>
+        /// <inheritdoc />
+        /// </summary>
+        public async Task RemoveParticipantAsync(Guid incidentId, Guid personId, CancellationToken cancellationToken = default)
+        {
+            await _repository.RemoveParticipantAsync(incidentId, personId, cancellationToken);
+        }
+
+        /// <summary>
+        /// <inheritdoc />
+        /// </summary>
+        public async Task<IEnumerable<IncidentParticipantDTO>> GetParticipantsByIncidentIdAsync(Guid incidentId, CancellationToken cancellationToken = default)
+        {
+            var participants = await _repository.GetParticipantsByIncidentIdAsync(incidentId, cancellationToken);
+            return participants.Select(MapParticipantToDTO).ToList();
+        }
+
+        /// <summary>
         /// Maps an Incident entity to an IncidentDTO.
         /// </summary>
         private static IncidentDTO MapToDTO(Incident entity)
@@ -116,6 +152,19 @@ namespace SecureOps.Application.Services
                 CaseNumber = entity.CaseNumber,
                 Metadata = entity.Metadata,
                 CreatedAt = entity.CreatedAt
+            };
+        }
+
+        /// <summary>
+        /// Maps an IncidentParticipant entity to an IncidentParticipantDTO.
+        /// </summary>
+        private static IncidentParticipantDTO MapParticipantToDTO(IncidentParticipant entity)
+        {
+            return new IncidentParticipantDTO
+            {
+                IncidentId = entity.IncidentId,
+                PersonId = entity.PersonId,
+                InvolvementTypeId = entity.InvolvementTypeId
             };
         }
     }

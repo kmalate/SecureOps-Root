@@ -57,5 +57,33 @@ namespace SecureOps.Infrastructure.Repository
             var entity = await GetByIdAsync(id, cancellationToken);
             return entity is not null;
         }
+
+        /// <inheritdoc />
+        public async Task<IncidentParticipant> AddParticipantAsync(IncidentParticipant participant, CancellationToken cancellationToken = default)
+        {
+            await _db.Set<IncidentParticipant>().AddAsync(participant, cancellationToken);
+            await _db.SaveChangesAsync(cancellationToken);
+            return participant;
+        }
+
+        /// <inheritdoc />
+        public async Task RemoveParticipantAsync(Guid incidentId, Guid personId, CancellationToken cancellationToken = default)
+        {
+            var participant = await _db.Set<IncidentParticipant>()
+                .FirstOrDefaultAsync(p => p.IncidentId == incidentId && p.PersonId == personId, cancellationToken);
+            
+            if (participant is null) return;
+            
+            _db.Set<IncidentParticipant>().Remove(participant);
+            await _db.SaveChangesAsync(cancellationToken);
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<IncidentParticipant>> GetParticipantsByIncidentIdAsync(Guid incidentId, CancellationToken cancellationToken = default)
+        {
+            return await _db.Set<IncidentParticipant>()
+                .Where(p => p.IncidentId == incidentId)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

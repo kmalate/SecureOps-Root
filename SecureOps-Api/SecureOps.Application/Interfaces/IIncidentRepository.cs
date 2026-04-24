@@ -1,5 +1,4 @@
-﻿
-namespace SecureOps.Application.Interfaces
+﻿namespace SecureOps.Application.Interfaces
 {
     using System;
     using System.Collections.Generic;
@@ -55,5 +54,29 @@ namespace SecureOps.Application.Interfaces
         /// <returns>True if the incident exists; otherwise false.</returns>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
         Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Adds a participant to an incident.
+        /// </summary>
+        /// <param name="participant">The incident participant to add.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+        /// <returns>The created incident participant.</returns>
+        Task<IncidentParticipant> AddParticipantAsync(IncidentParticipant participant, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Removes a participant from an incident.
+        /// </summary>
+        /// <param name="incidentId">The incident identifier.</param>
+        /// <param name="personId">The person identifier.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+        Task RemoveParticipantAsync(Guid incidentId, Guid personId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves all participants for a specific incident.
+        /// </summary>
+        /// <param name="incidentId">The incident identifier.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used to cancel the operation.</param>
+        /// <returns>An enumerable containing all participants for the incident.</returns>
+        Task<IEnumerable<IncidentParticipant>> GetParticipantsByIncidentIdAsync(Guid incidentId, CancellationToken cancellationToken = default);
     }
 }

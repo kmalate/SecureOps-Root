@@ -48,5 +48,29 @@ namespace SecureOps.Application.Interfaces
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns><c>true</c> if the incident exists; otherwise <c>false</c>.</returns>
         Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Adds a participant to an incident.
+        /// </summary>
+        /// <param name="dto">The incident participant DTO to add.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>The created <see cref="IncidentParticipantDTO"/>.</returns>
+        Task<IncidentParticipantDTO> AddParticipantAsync(IncidentParticipantDTO dto, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Removes a participant from an incident.
+        /// </summary>
+        /// <param name="incidentId">The incident identifier.</param>
+        /// <param name="personId">The person identifier.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        Task RemoveParticipantAsync(Guid incidentId, Guid personId, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Retrieves all participants for a specific incident.
+        /// </summary>
+        /// <param name="incidentId">The incident identifier.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>An enumerable of incident participant DTOs.</returns>
+        Task<IEnumerable<IncidentParticipantDTO>> GetParticipantsByIncidentIdAsync(Guid incidentId, CancellationToken cancellationToken = default);
     }
 }

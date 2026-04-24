@@ -110,5 +110,47 @@ namespace SecureOps.Api.Controllers
             await _incidentService.DeleteAsync(id, cancellationToken);
             return NoContent();
         }
+
+        /// <summary>
+        /// Adds a participant to an incident.
+        /// </summary>
+        /// <param name="dto">The incident participant to add.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Created <see cref="IncidentParticipantDTO"/> with location header.</returns>
+        [HttpPost("{id:guid}/participants")]
+        public async Task<ActionResult<IncidentParticipantDTO>> AddParticipant(Guid id, [FromBody] IncidentParticipantDTO dto, CancellationToken cancellationToken)
+        {
+            if (id != dto.IncidentId) return BadRequest("Incident ID mismatch.");
+
+            var created = await _incidentService.AddParticipantAsync(dto, cancellationToken);
+            return CreatedAtAction(nameof(GetParticipantsByIncident), new { id = id }, created);
+        }
+
+        /// <summary>
+        /// Removes a participant from an incident.
+        /// </summary>
+        /// <param name="id">The incident identifier.</param>
+        /// <param name="personId">The person identifier to remove.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>204 No Content on success, 404 if not found.</returns>
+        [HttpDelete("{id:guid}/participants/{personId:guid}")]
+        public async Task<IActionResult> RemoveParticipant(Guid id, Guid personId, CancellationToken cancellationToken)
+        {
+            await _incidentService.RemoveParticipantAsync(id, personId, cancellationToken);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Retrieves all participants for a specific incident.
+        /// </summary>
+        /// <param name="id">The incident identifier.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>List of <see cref="IncidentParticipantDTO"/> for the incident.</returns>
+        [HttpGet("{id:guid}/participants")]
+        public async Task<ActionResult<IEnumerable<IncidentParticipantDTO>>> GetParticipantsByIncident(Guid id, CancellationToken cancellationToken)
+        {
+            var participants = await _incidentService.GetParticipantsByIncidentIdAsync(id, cancellationToken);
+            return Ok(participants);
+        }
     }
 }
