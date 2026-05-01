@@ -1,19 +1,22 @@
 ﻿using SecureOps.Application.DTO;
 using SecureOps.Application.Interfaces;
 using SecureOps.Domain.Entities;
+using System.Security.Claims;
 
 namespace SecureOps.Application.Services
 {
     public class IncidentService : IIncidentService
     {
         private readonly IIncidentRepository _repository;
+        private readonly ClaimsPrincipal _user;
 
         /// <summary>
         /// <inheritdoc />
         /// </summary>
-        public IncidentService(IIncidentRepository repository)
+        public IncidentService(IIncidentRepository repository, ClaimsPrincipal user)
         {
             _repository = repository;
+            _user = user;
         }
 
         /// <summary>
@@ -22,18 +25,20 @@ namespace SecureOps.Application.Services
         public async Task<IncidentDTO> AddAsync(IncidentDTO dto, CancellationToken cancellationToken = default)
         {
             ArgumentNullException.ThrowIfNull(dto);
+            var userId = _user?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? throw new InvalidOperationException("User context is not available.");
 
             var entity = new Incident
             {
                 IncidentCategoryId = dto.IncidentCategoryId,
-                IncidentSeverityId = dto.Severity?.Id ?? 0,
+                IncidentSeverityId = dto.IncidentSeverityId,
                 OccurredAt = dto.OccurredAt,
                 Narrative = dto.Narrative,
-                CreatedById = dto.CreatedById,
+                CreatedById = int.Parse(_user?.FindFirst(ClaimTypes.NameIdentifier)?.Value),
+                CreatedAt = DateTime.UtcNow,
                 ReportedById = dto.ReportedById,
-                ReportedBy = null!,
                 CaseNumber = dto.CaseNumber,
-                Metadata = dto.Metadata
+                Metadata = dto.Metadata,
+                Status = dto.Status
             };
 
             var added = await _repository.AddAsync(entity, cancellationToken);
@@ -72,13 +77,15 @@ namespace SecureOps.Application.Services
                 ?? throw new KeyNotFoundException($"Incident with id {dto.Id} was not found.");
             
             entity.IncidentCategoryId = dto.IncidentCategoryId;
-            entity.IncidentSeverityId = dto.Severity?.Id ?? 0;
+            entity.IncidentSeverityId = dto.IncidentSeverityId;
             entity.OccurredAt = dto.OccurredAt;
             entity.Narrative = dto.Narrative;
-            entity.CreatedById = dto.CreatedById;
+            entity.UpdatedById = int.Parse(_user?.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            entity.UpdatedAt = DateTime.UtcNow;
             entity.ReportedById = dto.ReportedById;
             entity.CaseNumber = dto.CaseNumber;
             entity.Metadata = dto.Metadata;
+            entity.Status = dto.Status;
 
             await _repository.UpdateAsync(entity, cancellationToken);
         }
@@ -144,14 +151,17 @@ namespace SecureOps.Application.Services
             {
                 Id = entity.Id,
                 IncidentCategoryId = entity.IncidentCategoryId,
-                Severity = entity.Severity,
+                IncidentSeverityId = entity.IncidentSeverityId,
                 OccurredAt = entity.OccurredAt,
                 Narrative = entity.Narrative,
                 CreatedById = entity.CreatedById,
                 ReportedById = entity.ReportedById,
                 CaseNumber = entity.CaseNumber,
                 Metadata = entity.Metadata,
-                CreatedAt = entity.CreatedAt
+                CreatedAt = entity.CreatedAt,
+                Status = entity.Status,
+                UpdatedById = entity.UpdatedById,
+                UpdatedAt = entity.UpdatedAt
             };
         }
 

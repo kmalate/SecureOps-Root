@@ -76,3 +76,12 @@ GET {{SecureOps.Api_HostAddress}}/incidents
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoia2hhbGlkLm1hbGF0ZUBnb29nbGUuY29tIiwianRpIjoiODNkNjAxYTYtMjk4OS00ODdhLTkyMjktYjVhMTc0ZGY1ODQ1IiwiZXhwIjoxNzc3MDQ3MTk2LCJpc3MiOiJTZWN1cmVPcHMuQXBpIiwiYXVkIjoiU2VjdXJlT3BzLkNsaWVudCJ9.5AyZuk_VwxQhNvbdxXCO4rjA-ifXdOAupDHKrtWXevU
 
 ###
+
+POST {{SecureOps.Api_HostAddress}}/incidents
+Content-Type: application/json
+
+{
+  //IncidentDTO
+}
+
+###

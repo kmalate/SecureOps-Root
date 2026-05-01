@@ -27,6 +27,10 @@ namespace SecureOps.Domain.Entities
         public string CaseNumber { get; set; } = string.Empty;
         public Dictionary<string, object> Metadata { get; set; } = [];
         public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public int? UpdatedById { get; set; }
+        [ForeignKey("UpdatedById")]
+        public Employee? UpdatedBy { get; set; }
         public IncidentStatus Status { get; set; }
     }
 }

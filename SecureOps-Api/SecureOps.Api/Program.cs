@@ -1,17 +1,24 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql;
 using SecureOps.Application;
 using SecureOps.Application.Interfaces;
 using SecureOps.Domain.Entities;
 using SecureOps.Infrastructure;
 using SecureOps.Infrastructure.Repository;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var dataSourceBuilder = new NpgsqlDataSourceBuilder(builder.Configuration.GetConnectionString("DefaultConnection"));
+// Enables dynamic JSON mapping for System.Text.Json
+dataSourceBuilder.EnableDynamicJson();
+var dataSource = dataSourceBuilder.Build();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'WebApplication1Context' not found.")));
+    options.UseNpgsql(dataSource));
 
 // Configure JWT authentication
 var jwtSettings = builder.Configuration.GetSection("Jwt");
@@ -51,6 +58,9 @@ builder.Services.AddScoped<IInvolvementTypeRepository, InvolvementTypeRepository
 builder.Services.AddScoped<IIncidentRepository, IncidentRepository>();
 builder.Services.AddScoped<IPersonRepository, PersonRepository>();
 builder.Services.AddApplicationServices(); // From Application project
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<ClaimsPrincipal>(s =>
+    s.GetRequiredService<IHttpContextAccessor>().HttpContext?.User ?? new ClaimsPrincipal());
 
 builder.Services.AddIdentityApiEndpoints<Employee>()
     .AddEntityFrameworkStores<ApplicationDbContext>();

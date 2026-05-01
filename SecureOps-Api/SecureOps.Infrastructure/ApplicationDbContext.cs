@@ -99,6 +99,12 @@ namespace SecureOps.Infrastructure
                         src => src.Kind == DateTimeKind.Utc ? src : DateTime.SpecifyKind(src, DateTimeKind.Utc),
                         dst => dst.Kind == DateTimeKind.Utc ? dst : DateTime.SpecifyKind(dst, DateTimeKind.Utc)
                      );
+                entity.Property(e => e.UpdatedAt)
+                   .HasDefaultValueSql("now() at time zone 'utc'")
+                   .HasConversion(
+                       src => src.Kind == DateTimeKind.Utc ? src : DateTime.SpecifyKind(src, DateTimeKind.Utc),
+                       dst => dst.Kind == DateTimeKind.Utc ? dst : DateTime.SpecifyKind(dst, DateTimeKind.Utc)
+                    );
             });
 
             modelBuilder.Entity<IncidentParticipant>(entity =>
