@@ -1,0 +1,64 @@
+<div class="container-fluid mt-3">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="mb-0">Incidents</h3>
+    <button class="btn btn-primary shadow-sm" (click)="createNewIncident()">
+      <i class="bi bi-plus-lg me-1"></i> New Incident
+    </button>
+  </div>
+
+  <div class="card mb-4 border-0 shadow-sm">
+    <div class="card-body">
+      <div class="row g-2">
+        <div class="col-md-4">
+          <input type="text" class="form-control" placeholder="Search by Keyword or ID...">
+        </div>
+        <div class="col-md-3">
+          <select class="form-select">
+            <option selected>All Incident Types</option>
+            <option>Theft</option>
+            <option>Medical</option>
+            <option>Safety Hazard</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-outline-secondary w-100">Filter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Date/Time</th>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let incident of this.incidentService.incidents()">
+            <td>{{ incident.createdAt | date:'short' }}</td>
+            <td class="fw-bold text-primary">#{{ incident.id }}</td>
+            <td><span class="badge bg-light text-dark border"></span></td>
+            <td></td>
+            <td>
+              <span class="badge" [ngClass]="incident.status === status.Draft ? 'bg-warning text-dark' : 'bg-success'">
+                
+              </span>
+            </td>
+            <td class="text-end">
+              <button class="btn btn-sm btn-outline-primary" (click)="editIncident(incident.id)">
+                <i class="bi bi-pencil"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

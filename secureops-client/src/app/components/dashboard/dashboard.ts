@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-sidebar',
+  selector: 'app-dashboard',
   imports: [RouterLink],
-  templateUrl: './sidebar.html',
-  styleUrl: './sidebar.css',
+  templateUrl: './dashboard.html',
+  styleUrl: './dashboard.css',
 })
-export class Sidebar {}
+export class Dashboard {}

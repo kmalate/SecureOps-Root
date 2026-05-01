@@ -1,0 +1,95 @@
+@if(incident) {
+  <div class="container-fluid py-3 bg-light min-vh-100">
+    <div class="d-flex justify-content-between align-items-center bg-white p-3 mb-3 shadow-sm rounded border-start border-primary border-4">
+      <div>
+        <button class="btn btn-outline-secondary btn-sm me-3" routerLink="/incidents">
+          <i class="bi bi-arrow-left"></i>
+        </button>
+        <span class="h5 mb-0 text-dark fw-bold">New Incident Report</span>
+        <span class="ms-2 badge bg-info-subtle text-info border border-info-subtle">DRAFT</span>
+      </div>
+      <div class="d-none d-md-block">
+        <small class="text-muted me-3">Case #: <span class="fw-bold">{{incident.caseNumber}}</span></small>
+        <button type="button" class="btn btn-primary px-4" (click)="onSubmit()">
+          <i class="bi bi-send-check me-2"></i>Submit Report
+        </button>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h6 class="card-title mb-0 fw-bold text-uppercase small text-muted">Incident Narrative</h6>
+              <span class="badge bg-light text-dark border">{{narrativeWordCount}} words</span>
+            </div>
+            <textarea 
+              class="form-control border-0 bg-light-subtle" 
+              rows="18" 
+              placeholder="Type the full narrative of the event here... Be specific and objective."
+              [(ngModel)]="incident.narrative"
+              style="resize: none; font-size: 1.1rem;">
+            </textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <h6 class="card-title mb-4 fw-bold text-uppercase small text-muted border-bottom pb-2">Structured Details</h6>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Incident Category</label>
+              <select class="form-select" [(ngModel)]="incident.incidentCategoryId">
+                <option *ngFor="let category of incidentCategories" [value]="category.id">{{ category.name }}</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Severity Level</label>
+              <select class="form-select" [(ngModel)]="incident.incidentSeverityId">
+                <option *ngFor="let severity of incidentSeverities" [value]="severity.id">{{ severity.name }}</option>
+              </select>
+            </div>
+
+            <div class="mt-4 pt-3 border-top">
+              <h6 class="mb-3 fw-bold small text-primary">Dynamic Metadata</h6>
+              
+              <div *ngFor="let field of fieldDefinitions" class="mb-3 p-2 bg-light rounded shadow-sm">
+                <label class="form-label small mb-1">{{ field.label }}</label>
+
+                <ng-container [ngSwitch]="field.fieldTypeId">
+                  <select *ngSwitchCase="'Dropdown'" 
+                          class="form-select form-select-sm"
+                          [ngModel]="getMetadataValue(field.id)"
+                          (ngModelChange)="onMetadataChange(field.id, $event)">
+                    <option *ngFor="let opt of field.options" [value]="opt">{{ opt }}</option>
+                  </select>
+
+                  <div *ngSwitchCase="'Checkbox'" class="form-check form-switch mt-1">
+                    <input class="form-check-input" type="checkbox" 
+                          [checked]="getMetadataValue(field.id) === 'true'"
+                          (change)="onMetadataChange(field.id, $event.target.checked.toString())">
+                    <label class="form-check-label small">Completed/Verified</label>
+                  </div>
+
+                  <input *ngSwitchDefault 
+                        type="text" 
+                        class="form-control form-control-sm"
+                        [ngModel]="getMetadataValue(field.id)"
+                        (ngModelChange)="onMetadataChange(field.id, $event)">
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-grid d-md-none mt-3">
+          <button class="btn btn-primary btn-lg shadow" (click)="onSubmit()">Submit Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
