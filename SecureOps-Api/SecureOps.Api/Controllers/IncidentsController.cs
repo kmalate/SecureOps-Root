@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SecureOps.Application.Interfaces;
 using SecureOps.Application.DTO;
+using FluentValidation;
 
 namespace SecureOps.Api.Controllers
 {
@@ -17,14 +18,17 @@ namespace SecureOps.Api.Controllers
     public class IncidentsController : ControllerBase
     {
         private readonly IIncidentService _incidentService;
+        private readonly IValidator<IncidentDTO> _validator;
 
         /// <summary>
         /// Initializes a new instance of <see cref="IncidentsController"/>.
         /// </summary>
         /// <param name="incidentService">The incident service.</param>
-        public IncidentsController(IIncidentService incidentService)
+        /// <param name="validator">The incident DTO validator.</param>
+        public IncidentsController(IIncidentService incidentService, IValidator<IncidentDTO> validator)
         {
             _incidentService = incidentService;
+            _validator = validator;
         }
 
         /// <summary>
@@ -68,6 +72,11 @@ namespace SecureOps.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<IncidentDTO>> Create([FromBody] IncidentDTO dto, CancellationToken cancellationToken)
         {
+            var result = await _validator.ValidateAsync(dto, cancellationToken);
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
             var created = await _incidentService.AddAsync(dto, cancellationToken);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }

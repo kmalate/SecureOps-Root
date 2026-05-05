@@ -1,9 +1,11 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using SecureOps.Application;
 using SecureOps.Application.Interfaces;
+using SecureOps.Application.Validators;
 using SecureOps.Domain.Entities;
 using SecureOps.Infrastructure;
 using SecureOps.Infrastructure.Repository;
@@ -61,6 +63,7 @@ builder.Services.AddApplicationServices(); // From Application project
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<ClaimsPrincipal>(s =>
     s.GetRequiredService<IHttpContextAccessor>().HttpContext?.User ?? new ClaimsPrincipal());
+builder.Services.AddValidatorsFromAssemblyContaining<IncidentDtoValidator>();
 
 builder.Services.AddIdentityApiEndpoints<Employee>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
