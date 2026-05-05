@@ -43,14 +43,14 @@
             <div class="mb-3">
               <label class="form-label small fw-bold">Incident Category</label>
               <select class="form-select" [(ngModel)]="incident.incidentCategoryId">
-                <option *ngFor="let category of incidentCategories" [value]="category.id">{{ category.name }}</option>
+                <option *ngFor="let category of lookupService.incidentCategories()" [value]="category.id">{{ category.name }}</option>
               </select>
             </div>
 
             <div class="mb-3">
               <label class="form-label small fw-bold">Severity Level</label>
               <select class="form-select" [(ngModel)]="incident.incidentSeverityId">
-                <option *ngFor="let severity of incidentSeverities" [value]="severity.id">{{ severity.name }}</option>
+                <option *ngFor="let severity of lookupService.incidentSeverities()" [value]="severity.id">{{ severity.name }}</option>
               </select>
             </div>
 

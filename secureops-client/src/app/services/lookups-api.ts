@@ -16,6 +16,10 @@ export class LookupsApi {
   incidentSeverities = this._incidentSeverities.asReadonly();
   
   getIncidentCategories() {
+    if (this._incidentCategories().length > 0) {
+      return;
+    }
+    
     this.http.get<IncidentCategory[]>(`${environment.apiUrl}/lookups/incident-categories`)
     .subscribe((data) => { 
       this._incidentCategories.set(data);
@@ -23,6 +27,10 @@ export class LookupsApi {
   }
 
   getIncidentSeverities() {
+    if (this._incidentSeverities().length > 0) {
+      return;
+    }
+
     this.http.get<IncidentSeverity[]>(`${environment.apiUrl}/lookups/incident-severities`)
     .subscribe((data) => { 
       this._incidentSeverities.set(data);

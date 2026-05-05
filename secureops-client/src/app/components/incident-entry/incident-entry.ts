@@ -21,8 +21,6 @@ export class IncidentEntry implements OnInit  {
   narrativeWordCount: number = 0;
   incident: Incident | null = null;
   incidentId: number | null = null;
-  incidentCategories = this.lookupService.incidentCategories();
-  incidentSeverities = this.lookupService.incidentSeverities();
 
   constructor() {}
 
