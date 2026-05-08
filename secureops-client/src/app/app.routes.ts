@@ -24,7 +24,8 @@ export const routes: Routes = [
         children: [
             { path: 'dashboard', component: Dashboard },
             { path: 'incidents', component: IncidentList },
-            { path:'incidententry', component: IncidentEntry}
+            { path:'incidententry', component: IncidentEntry},
+            { path:'incidententry/:id', component: IncidentEntry}
             // { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
         ]
     },

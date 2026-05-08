@@ -13,6 +13,21 @@ export class IncidentApi {
 
   incidents = this._incidents.asReadonly();
   incident = this._incident.asReadonly();
+
+  getIncidentById(id: string) {
+    this.http.get<Incident>(`${environment.apiUrl}/incidents/${id}`).subscribe((data) => {
+      this._incident.set(data);
+    });
+  }
+
+  //TODO: remove temporary method once user management is implemented and we can pull user id from auth context
+  setCreateById(id: number) {
+    this._incident.update(current => ({ ...current, createdById: id, reportedById: id } as Incident));
+  }
+
+  setDraftIncident(incident: Incident) {
+    this._incident.set(incident);
+  }
   
   getAllIncidents() {
     this.http.get<Incident[]>(`${environment.apiUrl}/incidents`)
@@ -24,10 +39,7 @@ export class IncidentApi {
   upsertIncident(incident: Incident | null) {
     if (incident) { 
       if (incident.id) {
-        this.http.put<Incident>(`${environment.apiUrl}/incidents/${incident.id}`, incident)
-          .subscribe((data) => {
-            this._incident.set(data);
-          });
+        this.http.put<Incident>(`${environment.apiUrl}/incidents/${incident.id}`, incident).subscribe();
       } else {
         this.http.post<Incident>(`${environment.apiUrl}/incidents`, incident)
           .subscribe((data) => {

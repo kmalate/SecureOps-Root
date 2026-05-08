@@ -6,7 +6,7 @@ export interface Incident {
     incidentCategoryId: number,
     incidentSeverityId: number,
     occurredAt: Date,
-    cratedById: number,
+    createdById: number,
     narrative: string,
     reportedById: number,
     caseNumber: string,

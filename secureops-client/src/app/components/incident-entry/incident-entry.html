@@ -1,5 +1,5 @@
-@if(incident) {
-  <div class="container-fluid py-3 bg-light min-vh-100">
+@if(incident(); as currentIncident) {
+<div class="container-fluid py-3 bg-light min-vh-100">
     <div class="d-flex justify-content-between align-items-center bg-white p-3 mb-3 shadow-sm rounded border-start border-primary border-4">
       <div>
         <button class="btn btn-outline-secondary btn-sm me-3" routerLink="/incidents">
@@ -9,7 +9,7 @@
         <span class="ms-2 badge bg-info-subtle text-info border border-info-subtle">DRAFT</span>
       </div>
       <div class="d-none d-md-block">
-        <small class="text-muted me-3">Case #: <span class="fw-bold">{{incident.caseNumber}}</span></small>
+        <small class="text-muted me-3">Case #: <span class="fw-bold">{{currentIncident.caseNumber}}</span></small>
         <button type="button" class="btn btn-primary px-4" (click)="onSubmit()">
           <i class="bi bi-send-check me-2"></i>Submit Report
         </button>
@@ -28,7 +28,7 @@
               class="form-control border-0 bg-light-subtle" 
               rows="18" 
               placeholder="Type the full narrative of the event here... Be specific and objective."
-              [(ngModel)]="incident.narrative"
+              [(ngModel)]="currentIncident.narrative"
               style="resize: none; font-size: 1.1rem;">
             </textarea>
           </div>
@@ -42,14 +42,14 @@
 
             <div class="mb-3">
               <label class="form-label small fw-bold">Incident Category</label>
-              <select class="form-select" [(ngModel)]="incident.incidentCategoryId">
+              <select class="form-select" [(ngModel)]="currentIncident.incidentCategoryId">
                 <option *ngFor="let category of lookupService.incidentCategories()" [value]="category.id">{{ category.name }}</option>
               </select>
             </div>
 
             <div class="mb-3">
               <label class="form-label small fw-bold">Severity Level</label>
-              <select class="form-select" [(ngModel)]="incident.incidentSeverityId">
+              <select class="form-select" [(ngModel)]="currentIncident.incidentSeverityId">
                 <option *ngFor="let severity of lookupService.incidentSeverities()" [value]="severity.id">{{ severity.name }}</option>
               </select>
             </div>

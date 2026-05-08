@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, effect, inject, OnInit, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Incident } from '../../model/incident';
 import { FormsModule } from '@angular/forms';
@@ -19,28 +19,28 @@ export class IncidentEntry implements OnInit  {
   incidentService = inject(IncidentApi);
   fieldDefinitions: FieldDefinition[] = [];
   narrativeWordCount: number = 0;
-  incident: Incident | null = null;
+  incident: Signal<Incident | null> = signal<Incident | null>(null);
   incidentId: number | null = null;
 
   constructor() {}
 
   ngOnInit() {
+    this.incident = this.incidentService.incident;
     this.incidentId = this.activateRoute.snapshot.paramMap.get('id') as number | null;
     this.lookupService.getIncidentCategories();
     this.lookupService.getIncidentSeverities();
     if (this.incidentId) {
-      //TODO: Load incident details for editing
+      this.incidentService.getIncidentById(this.incidentId.toString());
     } else {
-      // Initialize for new incident draft
-      this.incident = {} as Incident;
+      this.incidentService.setDraftIncident({} as Incident);
     }
   }
 
   onSubmit() {
     if (this.incident) {
       //TODO: replace with actual user id
-      this.incident.reportedById = 1;
-      this.incidentService.upsertIncident(this.incident);
+      this.incidentService.setCreateById(1);
+      this.incidentService.upsertIncident(this.incident());
     }
   }  
 
