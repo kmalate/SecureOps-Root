@@ -29,4 +29,8 @@ export class IncidentList implements OnInit {
   editIncident(id:string) {
     this.router.navigate(['/incidententry', id]);
   }
+
+  deleteIncident(id:string) {
+    this.incidentService.deleteIncident(id);
+  }
 }

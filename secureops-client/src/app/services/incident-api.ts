@@ -48,4 +48,10 @@ export class IncidentApi {
       }
     }
   }
+
+  deleteIncident(id: string) {
+    this.http.delete(`${environment.apiUrl}/incidents/${id}`).subscribe(() => {
+      this.getAllIncidents();
+    });
+  }
 }
