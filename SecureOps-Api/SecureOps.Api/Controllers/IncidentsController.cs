@@ -35,9 +35,9 @@ namespace SecureOps.Api.Controllers
         /// Retrieves all incidents.
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns>List of <see cref="IncidentDTO"/>.</returns>
+        /// <returns>List of <see cref="IncidentListDTO"/>.</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<IncidentDTO>>> GetAll(CancellationToken cancellationToken)
+        public async Task<ActionResult<IEnumerable<IncidentListDTO>>> GetAll(CancellationToken cancellationToken)
         {
             var items = await _incidentService.GetAllAsync(cancellationToken);
             return Ok(items);

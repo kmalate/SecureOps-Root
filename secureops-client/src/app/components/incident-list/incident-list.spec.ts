@@ -12,7 +12,7 @@ describe('IncidentList', () => {
       providers: [
         { 
           provide: IncidentApi, useValue: { 
-            incidents: vi.fn(() => []) ,
+            incidentList: vi.fn(() => []) ,
             getAllIncidents: vi.fn(() => Promise.resolve([]))
           } 
         }

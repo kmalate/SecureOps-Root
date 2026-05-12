@@ -8,8 +8,10 @@
         <span class="h5 mb-0 text-dark fw-bold">New Incident Report</span>
         <span class="ms-2 badge bg-info-subtle text-info border border-info-subtle">DRAFT</span>
       </div>
-      <div class="d-none d-md-block">
-        <small class="text-muted me-3">Case #: <span class="fw-bold">{{currentIncident.caseNumber}}</span></small>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn btn-primary" (click)="onSave()">
+          Save
+        </button>
         <button type="button" class="btn btn-primary px-4" (click)="onSubmit()">
           <i class="bi bi-send-check me-2"></i>Submit Report
         </button>

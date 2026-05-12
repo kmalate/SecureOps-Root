@@ -2,16 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Incident } from '../model/incident';
 import { environment } from '../../environments/environment.development';
+import { IncidentListItem } from '../model/incidentListItem';
 
 @Injectable({
   providedIn: 'root',
 })
 export class IncidentApi {
   private http = inject(HttpClient);
-  private _incidents = signal<Incident[]>([]);
+  private _incidentList = signal<IncidentListItem[]>([]);
   private _incident = signal<Incident | null>(null);
 
-  incidents = this._incidents.asReadonly();
+  incidentList = this._incidentList.asReadonly();
   incident = this._incident.asReadonly();
 
   getIncidentById(id: string) {
@@ -30,9 +31,9 @@ export class IncidentApi {
   }
   
   getAllIncidents() {
-    this.http.get<Incident[]>(`${environment.apiUrl}/incidents`)
+    this.http.get<IncidentListItem[]>(`${environment.apiUrl}/incidents`)
     .subscribe((data) => { 
-      this._incidents.set(data);
+      this._incidentList.set(data);
     });
   }
 

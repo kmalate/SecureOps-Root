@@ -13,11 +13,11 @@ namespace SecureOps.Application.Interfaces
         Task<IncidentDTO> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Retrieves all <see cref="IncidentDTO"/> records.
+        /// Retrieves all <see cref="IncidentListDTO"/> records.
         /// </summary>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>An enumerable of all incident DTOs.</returns>
-        Task<IEnumerable<IncidentDTO>> GetAllAsync(CancellationToken cancellationToken = default);
+        Task<IEnumerable<IncidentListDTO>> GetAllAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds a new incident.

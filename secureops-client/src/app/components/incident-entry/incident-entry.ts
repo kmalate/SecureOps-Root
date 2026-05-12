@@ -1,20 +1,21 @@
-import { ChangeDetectorRef, Component, computed, effect, inject, OnInit, Signal, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, OnInit, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Incident } from '../../model/incident';
 import { FormsModule } from '@angular/forms';
 import { FieldDefinition } from '../../model/fieldDefinition';
 import { LookupsApi } from '../../services/lookups-api';
 import { IncidentApi } from '../../services/incident-api';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-incident-entry',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './incident-entry.html',
   styleUrl: './incident-entry.css',
 })
 export class IncidentEntry implements OnInit  {
   private activateRoute = inject(ActivatedRoute);
+  private router = inject(Router);
   lookupService = inject(LookupsApi);
   incidentService = inject(IncidentApi);
   fieldDefinitions: FieldDefinition[] = [];
@@ -41,8 +42,17 @@ export class IncidentEntry implements OnInit  {
       //TODO: replace with actual user id
       this.incidentService.setCreateById(1);
       this.incidentService.upsertIncident(this.incident());
+      this.router.navigate(['/incidentList']);
     }
   }  
+
+  onSave() {
+    if (this.incident) {  
+      //TODO: replace with actual user id
+      this.incidentService.setCreateById(1);
+      this.incidentService.upsertIncident(this.incident());
+    }
+  }
 
   onMetadataChange(fieldId: number, event: any) {}
 

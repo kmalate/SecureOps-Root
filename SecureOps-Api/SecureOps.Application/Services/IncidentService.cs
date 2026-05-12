@@ -60,10 +60,21 @@ namespace SecureOps.Application.Services
         /// <summary>
         /// <inheritdoc />
         /// </summary>
-        public async Task<IEnumerable<IncidentDTO>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<IncidentListDTO>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             var entities = await _repository.GetAllAsync(cancellationToken);
-            return entities.Select(MapToDTO).ToList();
+            return entities.Select(item => new IncidentListDTO
+            {
+                Id = item.Id,
+                Category = new IncidentCategoryDTO { Id = item.Category.Id, Name = item.Category.Name },
+                Severity = new IncidentSeverityDTO { Id = item.Severity.Id, Name = item.Severity.Name },
+                OccurredAt = item.OccurredAt,
+                CreatedBy = MapEmployeeToDTO(item.CreatedBy),
+                ReportedBy = MapEmployeeToDTO(item.ReportedBy),
+                CreatedAt = item.CreatedAt,
+                Status = item.Status
+            }).ToList();
+
         }
 
         /// <summary>
@@ -73,9 +84,9 @@ namespace SecureOps.Application.Services
         {
             ArgumentNullException.ThrowIfNull(dto);
 
-            var entity = await _repository.GetByIdAsync(dto.Id, cancellationToken) 
+            var entity = await _repository.GetByIdAsync(dto.Id, cancellationToken)
                 ?? throw new KeyNotFoundException($"Incident with id {dto.Id} was not found.");
-            
+
             entity.IncidentCategoryId = dto.IncidentCategoryId;
             entity.IncidentSeverityId = dto.IncidentSeverityId;
             entity.OccurredAt = dto.OccurredAt;
@@ -175,6 +186,21 @@ namespace SecureOps.Application.Services
                 IncidentId = entity.IncidentId,
                 PersonId = entity.PersonId,
                 InvolvementTypeId = entity.InvolvementTypeId
+            };
+        }
+
+        private static EmployeeDTO MapEmployeeToDTO(Employee entity)
+        {
+            return new EmployeeDTO
+            {
+                Id = entity.Id,
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+                DateOfBirth = entity.DateOfBirth,
+                DateOfHire = entity.DateOfHire,
+                IsRegistered = entity.IsRegistered,
+                IsActive = entity.IsActive,
+                CreatedAt = entity.CreatedAt
             };
         }
     }

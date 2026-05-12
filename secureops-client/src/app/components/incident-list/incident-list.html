@@ -33,22 +33,22 @@
         <thead class="table-light">
           <tr>
             <th>Date/Time</th>
-            <th>ID</th>
-            <th>Type</th>
-            <th>Location</th>
+            <th>Category</th>
+            <th>Severity</th>
+            <th>Reported By</th>
             <th>Status</th>
             <th class="text-end">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let incident of this.incidentService.incidents()">
+          <tr *ngFor="let incident of this.incidentService.incidentList()">
             <td>{{ incident.createdAt | date:'short' }}</td>
-            <td class="fw-bold text-primary">#{{ incident.id }}</td>
-            <td><span class="badge bg-light text-dark border"></span></td>
-            <td></td>
+            <td class="fw-bold text-primary">{{ incident.category.name }}</td>
+            <td><span class="badge bg-light text-dark border">{{ incident.severity.name }}</span></td>
+            <td>{{ incident.reportedBy.firstName }} {{ incident.reportedBy.lastName }}</td>
             <td>
               <span class="badge" [ngClass]="incident.status === status.Draft ? 'bg-warning text-dark' : 'bg-success'">
-                
+                {{ incident.status }}
               </span>
             </td>
             <td class="text-end">
