@@ -1,6 +1,7 @@
 ﻿using SecureOps.Application.DTO;
 using SecureOps.Application.Interfaces;
 using SecureOps.Domain.Entities;
+using SecureOps.Domain.Enums;
 using System.Text.Json;
 
 namespace SecureOps.Application.Services
@@ -66,17 +67,22 @@ namespace SecureOps.Application.Services
         /// <summary>
         /// <inheritdoc />
         /// </summary>
-        public async Task<IEnumerable<FieldDefinitionDTO>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<FieldDefinitionListDTO>> GetAllAsync(FieldTarget fieldTarget, CancellationToken cancellationToken = default)
         {
-            var entities = await _repository.GetAllAsync(cancellationToken);
-            return entities.Select(e => new FieldDefinitionDTO
+            var entities = await _repository.GetAllAsync(fieldTarget, cancellationToken);
+            return entities.Select(e => new FieldDefinitionListDTO
             {
                 Id = e.Id,
                 Label = e.Label,
-                FieldTypeId = e.FieldTypeId,
                 Options = !string.IsNullOrEmpty(e.Options)
                     ? JsonSerializer.Deserialize<object>(e.Options) ?? new { }
-                    : new { }
+                    : new { },
+                FieldType = e.FieldType != null ? new FieldTypeDTO
+                {
+                    Id = e.FieldType.Id,
+                    Name = e.FieldType.Name
+                } : null,
+                DisplayOrder = e.DisplayOrder
             }).ToList();
         }
 

@@ -12,7 +12,7 @@ export interface Incident {
     caseNumber: string,
     createdAt: Date,
     status: IncidentStatus
-    metadata: IncidentMetadata[];
+    metadata: IncidentMetadata;
     updatedById: number;
     updatedAt: Date;
 }

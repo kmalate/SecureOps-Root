@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using SecureOps.Application.Interfaces;
 using SecureOps.Application.DTO;
+using SecureOps.Domain.Enums;
 
 
 namespace SecureOps.Api.Controllers
@@ -35,9 +36,9 @@ namespace SecureOps.Api.Controllers
         
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<FieldDefinitionDTO>>> GetAll(CancellationToken cancellationToken)
+        public async Task<ActionResult<IEnumerable<FieldDefinitionListDTO>>> GetAll(CancellationToken cancellationToken)
         {
-            var items = await _service.GetAllAsync(cancellationToken);
+            var items = await _service.GetAllAsync(FieldTarget.Incident, cancellationToken);
             return Ok(items);
         }
 

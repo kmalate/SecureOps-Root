@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SecureOps.Domain.Entities;
+using SecureOps.Domain.Enums;
+using System.Reflection.Emit;
 
 namespace SecureOps.Infrastructure
 {
@@ -54,6 +56,68 @@ namespace SecureOps.Infrastructure
                     new InvolvementType { Name = "Suspect" },
                     new InvolvementType { Name = "Complainant" },
                     new InvolvementType { Name = "Other" }
+                );
+            }
+
+            if (!context.FieldDefinitions.Any())
+            {
+                context.FieldDefinitions.AddRange(
+                    new FieldDefinition
+                    {
+                        Id = 5,
+                        Label = "Facility Zone",
+                        Target = FieldTarget.Incident,
+                        FieldTypeId = 5, // Dropdown
+                        Options = "[\"Parking Lot\", \"Lobby\", \"Warehouse\", \"Retail Floor\", \"Office\", \"Loading Dock\"]",
+                        DisplayOrder = 1
+                    },
+                    new FieldDefinition
+                    {
+                        Id = 6,
+                        Label = "Street Address",
+                        Target = FieldTarget.Incident,
+                        FieldTypeId = 1, // Text
+                        Options = "{}",
+                        DisplayOrder = 2
+                    },
+                    new FieldDefinition
+                    {
+                        Id = 7,
+                        Label = "GPS Coordinates",
+                        Target = FieldTarget.Incident,
+                        FieldTypeId = 1, // Text (or specialized geo field)
+                        Options = "{\"placeholder\": \"Lat, Long\"}",
+                        DisplayOrder = 3
+                    },
+
+                    // --- ASSET & IMPACT ---
+                    new FieldDefinition
+                    {
+                        Id = 8,
+                        Label = "Property Damage Involved",
+                        Target = FieldTarget.Incident,
+                        FieldTypeId = 4, // Boolean
+                        Options = "{}",
+                        DisplayOrder = 4
+                    },
+                    new FieldDefinition
+                    {
+                        Id = 9,
+                        Label = "Asset Tag Number",
+                        Target = FieldTarget.Incident,
+                        FieldTypeId = 1, // Text
+                        Options = "{\"pattern\": \"^[A-Z]{2}-\\\\d{5}$\"}", // Optional Regex
+                        DisplayOrder = 5
+                    },
+                    new FieldDefinition
+                    {
+                        Id = 12,
+                        Label = "CCTV Footage Available",
+                        Target = FieldTarget.Incident,
+                        FieldTypeId = 4, // Boolean
+                        Options = "{}",
+                        DisplayOrder = 6
+                    }
                 );
             }
 

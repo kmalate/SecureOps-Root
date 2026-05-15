@@ -10,10 +10,10 @@
     <div class="card-body">
       <div class="row g-2">
         <div class="col-md-4">
-          <input type="text" class="form-control" placeholder="Search by Keyword or ID...">
+          <input type="text" class="form-control" disabled placeholder="Search by Keyword or ID...">
         </div>
         <div class="col-md-3">
-          <select class="form-select">
+          <select class="form-select" disabled>
             <option selected>All Incident Types</option>
             <option>Theft</option>
             <option>Medical</option>
@@ -21,7 +21,10 @@
           </select>
         </div>
         <div class="col-md-2">
-          <button class="btn btn-outline-secondary w-100">Filter</button>
+          <button class="btn btn-outline-secondary w-100 disabled">Filter</button>
+        </div>
+        <div class="col-md-2">
+            <p class="text-muted small">TODO: Search</p>
         </div>
       </div>
     </div>

@@ -1,11 +1,12 @@
-import { ChangeDetectorRef, Component, effect, inject, OnInit, Signal, signal } from '@angular/core';
+import { Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Incident } from '../../model/incident';
 import { FormsModule } from '@angular/forms';
-import { FieldDefinition } from '../../model/fieldDefinition';
 import { LookupsApi } from '../../services/lookups-api';
 import { IncidentApi } from '../../services/incident-api';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Toast } from '../../services/toast';
+import { FieldDefinitionApi } from '../../services/field-definition-api';
 
 @Component({
   selector: 'app-incident-entry',
@@ -16,9 +17,10 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 export class IncidentEntry implements OnInit  {
   private activateRoute = inject(ActivatedRoute);
   private router = inject(Router);
+  private toast = inject(Toast);
   lookupService = inject(LookupsApi);
   incidentService = inject(IncidentApi);
-  fieldDefinitions: FieldDefinition[] = [];
+  fieldDefinitionService = inject(FieldDefinitionApi);
   narrativeWordCount: number = 0;
   incident: Signal<Incident | null> = signal<Incident | null>(null);
   incidentId: number | null = null;
@@ -30,10 +32,11 @@ export class IncidentEntry implements OnInit  {
     this.incidentId = this.activateRoute.snapshot.paramMap.get('id') as number | null;
     this.lookupService.getIncidentCategories();
     this.lookupService.getIncidentSeverities();
+    this.fieldDefinitionService.getFieldDefinitions();
     if (this.incidentId) {
       this.incidentService.getIncidentById(this.incidentId.toString());
     } else {
-      this.incidentService.setDraftIncident({} as Incident);
+      this.incidentService.setDraftIncident({ metadata: {}} as Incident);
     }
   }
 
@@ -41,8 +44,9 @@ export class IncidentEntry implements OnInit  {
     if (this.incident) {
       //TODO: replace with actual user id
       this.incidentService.setCreateById(1);
-      this.incidentService.upsertIncident(this.incident());
-      this.router.navigate(['/incidentList']);
+      this.incidentService.upsertIncident(this.incident()).subscribe(() => {
+        this.router.navigate(['/incidents']);
+      });
     }
   }  
 
@@ -50,12 +54,27 @@ export class IncidentEntry implements OnInit  {
     if (this.incident) {  
       //TODO: replace with actual user id
       this.incidentService.setCreateById(1);
-      this.incidentService.upsertIncident(this.incident());
+      this.incidentService.upsertIncident(this.incident()).subscribe(() => {
+        this.toast.show('Incident saved successfully', { classname: 'bg-success text-light', delay: 3000 });
+      });
     }
   }
 
-  onMetadataChange(fieldId: number, event: any) {}
+  onMetadataChange(fieldId: number, newValue: string) {
+    const incident = this.incident();
+    if (!incident) {
+      return;
+    }
 
-  getMetadataValue(fieldId: number) : string { return ''; }
+    incident.metadata[fieldId] = newValue;
+  }
+
+  getMetadataValue(fieldId: number) : string { 
+    let entry = '';
+    if (this.incident()?.metadata) {
+      entry = this.incident()!.metadata[fieldId] || '';
+    }
+    return entry;
+  }
 
 }

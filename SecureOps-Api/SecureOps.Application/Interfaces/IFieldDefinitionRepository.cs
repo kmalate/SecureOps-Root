@@ -1,4 +1,5 @@
 ﻿using SecureOps.Domain.Entities;
+using SecureOps.Domain.Enums;
 
 
 namespace SecureOps.Application.Interfaces
@@ -16,9 +17,10 @@ namespace SecureOps.Application.Interfaces
         /// <summary>
         /// Retrieves all <see cref="FieldDefinition"/> records.
         /// </summary>
+        /// <param name="fieldTarget">The target for which to retrieve field definitions.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>An enumerable of all field definitions.</returns>
-        Task<IEnumerable<FieldDefinition>> GetAllAsync(CancellationToken cancellationToken = default);
+        Task<IEnumerable<FieldDefinition>> GetAllAsync(FieldTarget fieldTarget, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds a new <see cref="FieldDefinition"/> to the data store.

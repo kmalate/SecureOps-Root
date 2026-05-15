@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IncidentEntry } from './incident-entry';
 import { ActivatedRoute } from '@angular/router';
 import { LookupsApi } from '../../services/lookups-api';
-import { IncidentApi } from '../../services/incident-api';
+import { FieldDefinitionApi } from '../../services/field-definition-api';
 
 describe('IncidentEntry', () => {
   let component: IncidentEntry;
@@ -27,6 +27,12 @@ describe('IncidentEntry', () => {
             incidentSeverities: vi.fn(() => []),
             getIncidentCategories: vi.fn(),
             getIncidentSeverities: vi.fn() 
+          }
+        },
+        {
+          provide: FieldDefinitionApi, useValue: {
+            fieldDefinitions: vi.fn(() => []),
+            getFieldDefinitions: vi.fn()
           }
         }
       ]

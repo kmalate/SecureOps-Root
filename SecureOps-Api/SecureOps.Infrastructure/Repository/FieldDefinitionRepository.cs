@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SecureOps.Application.Interfaces;
 using SecureOps.Domain.Entities;
+using SecureOps.Domain.Enums;
 
 namespace SecureOps.Infrastructure.Repository
 {
@@ -21,9 +22,12 @@ namespace SecureOps.Infrastructure.Repository
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<FieldDefinition>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<FieldDefinition>> GetAllAsync(FieldTarget fieldTarget, CancellationToken cancellationToken = default)
         {
-            return await _db.Set<FieldDefinition>().ToListAsync(cancellationToken);
+            return await _db.Set<FieldDefinition>()
+                .Where(f => f.Target == fieldTarget)
+                .Include(f => f.FieldType)
+                .ToListAsync(cancellationToken);
         }
 
         /// <inheritdoc />

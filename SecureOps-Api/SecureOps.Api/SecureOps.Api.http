@@ -17,23 +17,11 @@ Content-Type: application/json
   "SSNLastFour": "1234"
 }
 
-### Login (This will give you a Cookie or Token)
-# If using Identity API Endpoints, this returns a Cookie by default
-# or a Bearer token if you ask for it.
-
-POST {{SecureOps.Api_HostAddress}}/login
-Content-Type: application/json
-
-{
-  "email": "khalid.malate@google.com",
-  "password": "#e4u8IQEtroh"
-}
-
 ###
 
 
 GET {{SecureOps.Api_HostAddress}}/fielddefinition
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoia2hhbGlkLm1hbGF0ZUBnb29nbGUuY29tIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIxIiwianRpIjoiZmI2NGU1NjYtYzJlNi00YWEzLWE0MzQtYTBhZDg4ZGVlMmFkIiwiZXhwIjoxNzc4NzI1NTI2LCJpc3MiOiJTZWN1cmVPcHMuQXBpIiwiYXVkIjoiU2VjdXJlT3BzLkNsaWVudCJ9.nMkZ2K_dvmAvDPKfqYG5Sp1ThklBHyw67_Q6Ou8fZbY
 ###
 
 POST {{SecureOps.Api_HostAddress}}/fielddefinition

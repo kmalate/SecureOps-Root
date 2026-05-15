@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Incident } from '../model/incident';
 import { environment } from '../../environments/environment.development';
 import { IncidentListItem } from '../model/incidentListItem';
+import { Observable, of, pipe, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -37,17 +38,21 @@ export class IncidentApi {
     });
   }
 
-  upsertIncident(incident: Incident | null) {
+  upsertIncident(incident: Incident | null) : Observable<Incident | void> {
     if (incident) { 
       if (incident.id) {
-        this.http.put<Incident>(`${environment.apiUrl}/incidents/${incident.id}`, incident).subscribe();
+        return this.http.put<Incident>(`${environment.apiUrl}/incidents/${incident.id}`, incident);
       } else {
-        this.http.post<Incident>(`${environment.apiUrl}/incidents`, incident)
-          .subscribe((data) => {
-            this._incident.set(data);
-          });
+        return this.http.post<Incident>(`${environment.apiUrl}/incidents`, incident)
+          .pipe(
+            tap((data) => {
+              this._incident.set(data);
+            })
+          );
       }
     }
+
+    return of(undefined);
   }
 
   deleteIncident(id: string) {

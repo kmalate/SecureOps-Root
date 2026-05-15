@@ -1,4 +1,5 @@
 ﻿using SecureOps.Application.DTO;
+using SecureOps.Domain.Enums;
 
 namespace SecureOps.Application.Interfaces
 {
@@ -13,11 +14,12 @@ namespace SecureOps.Application.Interfaces
         Task<FieldDefinitionDTO> GetByIdAsync(int id, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Retrieves all <see cref="FieldDefinitionDTO"/> records.
+        /// Retrieves all <see cref="FieldDefinitionListDTO"/> records.
         /// </summary>
+        /// <param name="fieldTarget">The target for which to retrieve field definitions.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>An enumerable of all field definition DTOs.</returns>
-        Task<IEnumerable<FieldDefinitionDTO>> GetAllAsync(CancellationToken cancellationToken = default);
+        Task<IEnumerable<FieldDefinitionListDTO>> GetAllAsync(FieldTarget fieldTarget, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Adds a new field definition.
