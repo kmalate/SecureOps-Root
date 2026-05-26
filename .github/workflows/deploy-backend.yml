@@ -4,7 +4,7 @@ name: Deploy .NET Backend to Azure
 on:
   push:
     branches:
-      - main     # Triggers the build when you push to main
+      - master     # Triggers the build when you push to main
     paths:
       - 'SecureOps-Api/**' # Only triggers if files in the backend folder change
 
