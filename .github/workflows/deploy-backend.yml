@@ -33,7 +33,7 @@ jobs:
         working-directory: ${{ env.WORKING_DIRECTORY }}
 
       - name: Publish App
-        run: ${{ env.WORKING_DIRECTORY }}/SecureOps.Api/SecureOps.Api.csproj -c Release -o ${{env.WORKING_DIRECTORY}}/publish
+        run: dotnet publish SecureOps-Api/SecureOps.Api/SecureOps.Api.csproj -c Release -o ${{env.DOTNET_ROOT}}/publish
         working-directory: ${{ env.WORKING_DIRECTORY }}
 
       # 4. Deploy the published artifact to Azure Web App
