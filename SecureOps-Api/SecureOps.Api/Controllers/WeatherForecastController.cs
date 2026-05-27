@@ -9,7 +9,7 @@ namespace SecureOps.Api.Controllers
     {
         private static readonly string[] Summaries =
         [
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Sweltering", "Scorching", "Hot"
+            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Sweltering", "Scorching"
         ];
 
         [HttpGet(Name = "GetWeatherForecast")]
