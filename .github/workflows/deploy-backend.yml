@@ -60,4 +60,4 @@ jobs:
         env:
           SB_URL: ${{ secrets.SUPABASE_DB_URL }}
         with:
-          args: psql -h $SB_URL -f ./migration.sql
+          args: psql $SB_URL -f ./migration.sql
