@@ -53,3 +53,11 @@ jobs:
       - name: Generate Migration Script
         run: |
           dotnet ef migrations script --idempotent --output migration.sql --project SecureOps-Api/SecureOps.Infrastructure/SecureOps.Infrastructure.csproj --startup-project SecureOps-Api/SecureOps.Api/SecureOps.Api.csproj
+
+     # 7. Execute the script directly against Supabase using psql
+      - name: Execute Migration on Supabase
+        uses: docker://postgres:15
+        env:
+          SB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        with:
+          args: psql $SB_URL -f ./migration.sql
