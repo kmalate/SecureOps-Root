@@ -60,4 +60,4 @@ jobs:
         env:
           SB_URL: ${{ secrets.SUPABASE_DB_URL }}
         with:
-          args: psql $SB_URL -f ./migration.sql
+          args: psql postgresql://postgres.qvaboegkxygwlnpbhxsz:M%26peTB%40%26%2642vF.g@aws-1-us-west-2.pooler.supabase.com:6543/postgres -f ./migration.sql
