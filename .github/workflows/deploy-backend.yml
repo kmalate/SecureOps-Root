@@ -43,3 +43,13 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: '${{ env.WORKING_DIRECTORY }}/publish'
+
+      # 5. Install the EF Core CLI tool on the GitHub runner
+      - name: Install EF Tool
+        run: dotnet tool install --global dotnet-ef
+
+      # 6. Generate the SQL script 
+      # Note: You must point to the startup project (.Api) and the project containing your DbContext (.Infrastructure)
+      - name: Generate Migration Script
+        run: |
+          dotnet ef migrations script --idempotent --output migration.sql --project SecureOps-Api/SecureOps.Infrastructure/SecureOps.Infrastructure.csproj --startup-project SecureOps-Api/SecureOps.Api/SecureOps.Api.csproj
