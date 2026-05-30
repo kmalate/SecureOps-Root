@@ -57,7 +57,5 @@ jobs:
      # 7. Execute the script directly against Supabase using psql
       - name: Execute Migration on Supabase
         uses: docker://postgres:15
-        env:
-          SB_URL: ${{ secrets.SUPABASE_DB_URL }}
         with:
-          args: psql $SB_URL -f ./migration.sql
+          args: psql ${{ secrets.SUPABASE_DB_URL }} -f ./migration.sql
