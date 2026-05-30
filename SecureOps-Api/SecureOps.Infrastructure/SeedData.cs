@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using SecureOps.Domain.Entities;
 using SecureOps.Domain.Enums;
-using System.Reflection.Emit;
 
 namespace SecureOps.Infrastructure
 {
@@ -23,6 +22,8 @@ namespace SecureOps.Infrastructure
                     new FieldType { Name = "Select" }
                 );
             }
+
+            context.SaveChanges();
 
             if (!context.IncidentCategories.Any())
             {
