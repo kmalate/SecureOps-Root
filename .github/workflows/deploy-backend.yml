@@ -58,6 +58,6 @@ jobs:
       - name: Execute Migration on Supabase
         uses: docker://postgres:15
         env:
-          SB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SB_URL: postgresql://postgres.qvaboegkxygwlnpbhxsz:M%26peTB%40%26%2642vF.g@aws-1-us-west-2.pooler.supabase.com:6543/postgres
         with:
           args: psql $SB_URL -f ./migration.sql
