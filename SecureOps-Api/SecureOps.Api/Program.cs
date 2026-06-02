@@ -76,8 +76,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: secureOpsClientOrigins,
                       policy =>
                       {
-                          //TODO: move this to configuration
-                          policy.WithOrigins("http://localhost:4200")
+                          policy.WithOrigins(builder.Configuration.GetSection("ClientUrl").Value)
                                 .AllowAnyHeader()
                                 .AllowAnyMethod();
                       });
