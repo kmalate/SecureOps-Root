@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Incident } from '../model/incident';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { IncidentListItem } from '../model/incidentListItem';
 import { Observable, of, pipe, tap } from 'rxjs';
 
