@@ -16,7 +16,7 @@ Password: SecureOpsDemo2026!
 
 ### Frontend
 * **Framework:** Angular (v21+)
-* **Styling & UI Components:** Bootstrap (for crisp, responsive, mobile-first design)
+* **Styling & UI Components:** Bootstrap (for crisp, responsive)
 
 ### Backend
 * **Framework:** .NET Core Web API (C#)
