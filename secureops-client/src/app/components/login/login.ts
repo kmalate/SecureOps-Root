@@ -1,11 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Auth } from '../../services/auth'
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { email, form, FormField, required } from '@angular/forms/signals'
+
+interface loginData {
+  email: string;
+  password: string;
+}
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [FormField],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -13,11 +18,17 @@ export class Login {
   private auth = inject(Auth);
   private router = inject(Router);
 
+  loginModel= signal<loginData>({ email: '', password: '' });
+  loginForm = form(this.loginModel, (schemaPath) => {
+    required(schemaPath.email, {message: 'Email is required'});
+    email(schemaPath.email, {message: 'Enter a valid email address'});
+    required(schemaPath.password, {message: 'Password is required'});
+  });
 
-  loginData = { email: '', password: '' };
-
-  onSubmit() {
-    this.auth.login(this.loginData.email, this.loginData.password).subscribe({
+  onSubmit(event: Event) {
+    event.preventDefault();
+    const loginData = this.loginModel();
+    this.auth.login(loginData.email, loginData.password).subscribe({
       next: () => {
         console.log('Login successful!');
         this.router.navigate(['/']);
