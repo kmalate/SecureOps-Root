@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { Auth } from '../../../services/auth';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
@@ -13,8 +13,14 @@ export class Header {
   private authService = inject(Auth);
   private router = inject(Router);
 
+  toggleSidebar = output();
+
   onLogout() {
     this.authService.logout();
     this.router.navigate(['/login']);
   };
+
+  onToggle() {
+    this.toggleSidebar.emit();
+  }
 }

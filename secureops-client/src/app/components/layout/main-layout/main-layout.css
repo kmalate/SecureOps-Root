@@ -1,0 +1,30 @@
+/* Sidebar default desktop behavior */
+.sidebar-wrapper {
+  width: 280px;
+  transition: all 0.3s ease;
+  z-index: 1050;
+}
+
+/* Mobile specific styling */
+@media (max-width: 767.98px) {
+  .sidebar-wrapper {
+    position: absolute;
+    left: -280px; /* Hidden by default */
+    top: 0;
+    bottom: 0;
+  }
+
+  .sidebar-wrapper.mobile-show {
+    left: 0; /* Slide in */
+  }
+
+  .sidebar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+  }
+}
