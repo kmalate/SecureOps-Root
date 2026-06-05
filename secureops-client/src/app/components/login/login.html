@@ -1,16 +1,30 @@
 <div class="container">
     <h3>Login</h3>
-    <form (ngSubmit)="onSubmit()">
+    <form (submit)="onSubmit($event)">
         <div class="mb-3">
             <label for="loginEmail" class="form-label">Email address</label>
             <input id="loginEmail" aria-describedby="emailHelp" class="form-control" type="email"
-                [(ngModel)]="loginData.email" name="email" placeholder="email" required />
+                [formField]="loginForm.email" placeholder="email" />
+            @if (loginForm.email().touched() && loginForm.email().invalid()) {
+            <ul class="error-list">
+                @for (error of loginForm.email().errors(); track error) {
+                <li>{{ error.message }}</li>
+                }
+            </ul>
+            }
         </div>
         <div class="mb-3">
             <label for="loginPassword" class="form-label">Password</label>
-            <input id="loginPassword" [(ngModel)]="loginData.password" name="password" type="password" 
-                class="form-control" placeholder="Password" required />
+            <input id="loginPassword" [formField]="loginForm.password" type="password" class="form-control"
+                placeholder="Password" />
+            @if (loginForm.password().touched() && loginForm.password().invalid()) {
+            <ul class="error-list">
+                @for (error of loginForm.password().errors(); track error) {
+                <li>{{ error.message }}</li>
+                }
+            </ul>
+            }
         </div>
-            <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-primary" [disabled]="loginForm().invalid()">Login</button>
     </form>
 </div>
