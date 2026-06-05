@@ -11,4 +11,10 @@ import { ToastContainer } from '../../toast-container/toast-container';
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
 })
-export class MainLayout {}
+export class MainLayout {
+  isSidebarVisible = false;
+
+  toggleSidebar() {
+    this.isSidebarVisible = !this.isSidebarVisible;
+  }
+}
