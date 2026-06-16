@@ -1,6 +1,8 @@
-@if(incident(); as currentIncident) {
-<div class="container-fluid py-3 bg-light min-vh-100">
-    <div class="d-flex justify-content-between align-items-center bg-white p-3 mb-3 shadow-sm rounded border-start border-primary border-4">
+@if (incident(); as currentIncident) {
+<form (submit)="onSubmit($event)">
+  <div class="container-fluid py-3 bg-light min-vh-100">
+    <div
+      class="d-flex justify-content-between align-items-center bg-white p-3 mb-3 shadow-sm rounded border-start border-primary border-4">
       <div>
         <button class="btn btn-outline-secondary btn-sm me-3" routerLink="/incidents">
           <i class="bi bi-arrow-left"></i>
@@ -9,10 +11,10 @@
         <span class="ms-2 badge bg-info-subtle text-info border border-info-subtle">DRAFT</span>
       </div>
       <div class="d-flex gap-2">
-        <button type="button" class="btn btn-primary" (click)="onSave()">
+        <button type="button" class="btn btn-primary" (click)="onSave()" [disabled]="incidentForm().invalid()">
           Save
         </button>
-        <button type="button" class="btn btn-primary px-4" (click)="onSubmit()">
+        <button type="submit" class="btn btn-primary px-4" [disabled]="incidentForm().invalid()">
           <i class="bi bi-send-check me-2"></i>Submit Report
         </button>
       </div>
@@ -25,13 +27,15 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
               <h6 class="card-title mb-0 fw-bold text-uppercase small text-muted">Incident Narrative</h6>
             </div>
-            <textarea 
-              class="form-control border-0 bg-light-subtle" 
-              rows="18" 
+            <textarea class="form-control border-0 bg-light-subtle" rows="18"
               placeholder="Type the full narrative of the event here... Be specific and objective."
-              [(ngModel)]="currentIncident.narrative"
-              style="resize: none; font-size: 1.1rem;">
+              [formField]="incidentForm.narrative" style="resize: none; font-size: 1.1rem;">
             </textarea>
+            @if(incidentForm.narrative().touched() && incidentForm.narrative().invalid()) {
+            @for(error of incidentForm.narrative().errors(); track error) {
+            <div class="text-danger small">{{ error.message }}</div>
+            }
+            }
           </div>
         </div>
       </div>
@@ -39,68 +43,77 @@
       <div class="col-lg-4">
         <div class="card border-0 shadow-sm">
           <div class="card-body">
-            <h6 class="card-title mb-4 fw-bold text-uppercase small text-muted border-bottom pb-2">Structured Details</h6>
+            <h6 class="card-title mb-4 fw-bold text-uppercase small text-muted border-bottom pb-2">Structured Details
+            </h6>
 
             <div class="mb-3">
               <label class="form-label small fw-bold">Incident Category</label>
-              <select class="form-select" [(ngModel)]="currentIncident.incidentCategoryId">
-                <option *ngFor="let category of lookupService.incidentCategories()" [value]="category.id">{{ category.name }}</option>
+              <select class="form-select" [formField]="incidentForm.incidentCategoryId">
+                <option value="0" disabled>-- Select category --</option>
+                @for (category of lookupService.incidentCategories(); track category.id) {
+                <option [value]="category.id">{{ category.name }}</option>
+                }
               </select>
+              @if(incidentForm.incidentCategoryId().touched() && incidentForm.incidentCategoryId().invalid()) {
+              @for(error of incidentForm.incidentCategoryId().errors(); track error) {
+              <div class="text-danger small">{{ error.message }}</div>
+              }
+              }
             </div>
 
             <div class="mb-3">
               <label class="form-label small fw-bold">Severity Level</label>
-              <select class="form-select" [(ngModel)]="currentIncident.incidentSeverityId">
-                <option *ngFor="let severity of lookupService.incidentSeverities()" [value]="severity.id">{{ severity.name }}</option>
+              <select class="form-select" [formField]="incidentForm.incidentSeverityId">
+                <option value="0" disabled>-- Select severity --</option>
+                @for (severity of lookupService.incidentSeverities(); track severity.id) {
+                <option [value]="severity.id">{{ severity.name }}</option>
+                }
               </select>
+              @if(incidentForm.incidentSeverityId().touched() && incidentForm.incidentSeverityId().invalid()) {
+              @for(error of incidentForm.incidentSeverityId().errors(); track error) {
+              <div class="text-danger small">{{ error.message }}</div>
+              }
+              }
             </div>
 
-             <div class="mb-3">
+            <div class="mb-3">
               <label class="form-label small fw-bold">Case Number</label>
-              <input type="text" class="form-control form-control-sm" 
-                [(ngModel)]="currentIncident.caseNumber" placeholder="Enter case number or identifier" />
+              <input type="text" class="form-control form-control-sm" [formField]="incidentForm.caseNumber"
+                placeholder="Enter case number or identifier" />
             </div>
-            
-          </div>
-        </div>
 
-        <div class="d-grid d-md-none mt-3">
-          <button class="btn btn-primary btn-lg shadow" (click)="onSubmit()">Submit Report</button>
+          </div>
         </div>
       </div>
     </div>
+
     <div class="row g-3">
       <div class="mt-4 pt-3 border-top">
-              <h6 class="mb-3 fw-bold small text-primary">Dynamic Metadata</h6>
-              
-              <div *ngFor="let field of fieldDefinitionService.fieldDefinitions()" class="mb-3 p-2 bg-light rounded shadow-sm">
-                <label class="form-label small mb-2 pe-2">{{ field.label }}</label>
+        <h6 class="mb-3 fw-bold small text-primary">Dynamic Metadata</h6>
 
-                @switch(field.fieldType.name) {
-                  @case("Select") {
-                    <select
-                          class="form-select form-select-sm"
-                          [ngModel]="getMetadataValue(field.id)"
-                          (ngModelChange)="onMetadataChange(field.id, $event)">
-                    @for(opt of field.options;track opt) { 
-                        <option [value]="opt">{{ opt }}</option>
-                    }
-                  </select>
-                  }
-                  @case("Boolean") {
-                    <input class="form-check-input" type="checkbox" 
-                          [checked]="getMetadataValue(field.id) === 'true'"
-                          (change)="onMetadataChange(field.id, $event.target.checked.toString())">
-                  }
-                  @default{
-                     <input type="text" 
-                        class="form-control form-control-sm"
-                        [ngModel]="getMetadataValue(field.id)"
-                        (ngModelChange)="onMetadataChange(field.id, $event)">
-                  }
-                }
-              </div>
-            </div>
+        @for (field of fieldDefinitionService.fieldDefinitions(); track field.id) {
+        <div class="mb-3 p-2 bg-light rounded shadow-sm">
+          <label class="form-label small mb-2 pe-2">{{ field.label }}</label>
+
+          @switch(field.fieldType.name) {
+          @case("Select") {
+          <select class="form-select form-select-sm" [formField]="$any(incidentForm.metadata)[field.id]">
+            @for(opt of field.options;track opt) {
+            <option [value]="opt">{{ opt }}</option>
+            }
+          </select>
+          }
+          @case("Boolean") {
+          <input class="form-check-input" type="checkbox" [formField]="$any(incidentForm.metadata)[field.id]">
+          }
+          @default{
+          <input type="text" class="form-control form-control-sm" [formField]="$any(incidentForm.metadata)[field.id]">
+          }
+          }
+        </div>
+        }
+      </div>
     </div>
   </div>
+</form>
 }
