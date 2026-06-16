@@ -46,6 +46,7 @@ Password: SecureOpsDemo2026!
 
 To elevate SecureOps from an incident tracker to an enterprise-grade operations platform, the following features are slated for development:
 
+* [x] **Dynamic Column Validation Optimization:** Complete the Signal-form binding for dynamic, context-specific incident columns to ensure comprehensive validation coverage across all fluid form states.
 * [ ] **Role-Based Access Control (RBAC):** Distinct permissions for Officers (create/view) and Supervisors/Dispatch (edit/delete/assign).
 * [ ] **Analytics & Reporting Dashboard:** Visual charts (using Chart.js or Ngx-charts) to map incident trends, peak times, and high-activity zones.
 * [ ] **Media Attachments:** Ability to upload and attach scene photos or document copies directly to an incident report using cloud storage.
