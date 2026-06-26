@@ -58,7 +58,7 @@
               <button class="btn btn-sm btn-outline-primary" (click)="editIncident(incident.id)">
                 <i class="bi bi-pencil"></i>
               </button>
-              <button class="btn btn-sm btn-outline-danger" (click)="deleteIncident(incident.id)">
+              <button class="btn btn-sm btn-outline-danger" (click)="openDelete(incident.id)">
                 <i class="bi bi-trash"></i>
               </button>
             </td>
@@ -68,3 +68,10 @@
     </div>
   </div>
 </div>
+
+<app-confirm-dialog
+  #deleteDialog
+  title="Delete Incident"
+  message="Are you sure you want to delete this incident?"
+  (confirmed)="deleteIncident()">
+</app-confirm-dialog>
