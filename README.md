@@ -8,7 +8,9 @@ SecureOps is a modern, full-stack security incident reporting and management app
 
 Demo Credentials  
 Email: demo@secureops.app  
-Password: SecureOpsDemo2026!  
+Password: SecureOpsDemo2026! 
+
+[![Watch the video](https://youtube.com)](https://youtube.com/watch?v=Dbay3dRnPiQ)
 
 ---
 
