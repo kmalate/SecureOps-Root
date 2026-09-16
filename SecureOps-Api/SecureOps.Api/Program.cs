@@ -1,3 +1,4 @@
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -85,6 +86,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+// Add OpenTelemetry and configure it to use Azure Monitor.
+builder.Services.AddOpenTelemetry().UseAzureMonitor();
 
 
 var app = builder.Build();
