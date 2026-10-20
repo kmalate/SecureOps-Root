@@ -25,6 +25,11 @@ export class Login {
     required(schemaPath.password, {message: 'Password is required'});
   });
 
+  ngOnInit(): void {
+    // Fire the wake-up request the moment the login page loads
+    this.auth.wakeUpBackend();
+  }
+
   onSubmit(event: Event) {
     event.preventDefault();
     const loginData = this.loginModel();
