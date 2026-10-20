@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { tap } from 'rxjs';
+import { catchError, EMPTY, tap } from 'rxjs';
 import { TokenResponse } from '../model/token-response';
 import {jwtDecode} from 'jwt-decode';
 
@@ -61,6 +61,12 @@ export class Auth {
     } catch (e) {
       return false; // If token is invalid, treat as not authenticated
     }
+  }
+
+  wakeUpBackend(): void {
+    this.http.get(`${environment.apiUrl}/weatherforecast`).pipe(
+      catchError(() => EMPTY) // Silently ignore errors if server is still sleeping
+    ).subscribe();
   }
 
 }
