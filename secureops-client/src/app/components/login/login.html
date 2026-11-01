@@ -3,9 +3,10 @@
 
     <div class="alert alert-info py-2 px-3 small mb-3" role="alert">
         <i class="bi bi-info-circle-fill me-1"></i>
-        <strong>Note:</strong> SecureOps backend runs on a free tier and may take up to 30 seconds to respond on the first request if it has been idle.
+        <strong>Note:</strong> SecureOps backend runs on a free tier and may take up to 30 seconds to respond on the
+        first request if it has been idle.
     </div>
-    
+
     <form (submit)="onSubmit($event)">
         <div class="mb-3">
             <label for="loginEmail" class="form-label">Email address</label>
@@ -30,6 +31,11 @@
                 }
             </ul>
             }
+        </div>
+        <div class="mb-3">
+            <button type="button" class="btn btn-light" (click)="fillDemoCredentials()">
+                ⚡ Auto-Fill Demo Credentials
+            </button>
         </div>
         <button type="submit" class="btn btn-primary" [disabled]="loginForm().invalid()">Login</button>
     </form>

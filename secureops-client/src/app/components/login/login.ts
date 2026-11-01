@@ -18,11 +18,11 @@ export class Login {
   private auth = inject(Auth);
   private router = inject(Router);
 
-  loginModel= signal<loginData>({ email: '', password: '' });
+  loginModel = signal<loginData>({ email: '', password: '' });
   loginForm = form(this.loginModel, (schemaPath) => {
-    required(schemaPath.email, {message: 'Email is required'});
-    email(schemaPath.email, {message: 'Enter a valid email address'});
-    required(schemaPath.password, {message: 'Password is required'});
+    required(schemaPath.email, { message: 'Email is required' });
+    email(schemaPath.email, { message: 'Enter a valid email address' });
+    required(schemaPath.password, { message: 'Password is required' });
   });
 
   ngOnInit(): void {
@@ -41,5 +41,12 @@ export class Login {
       error: (err) => console.error('Login failed', err)
     });
 
+  }
+
+  fillDemoCredentials(): void {
+    this.loginModel.set({
+      email: 'demo@secureops.app',
+      password: 'SecureOpsDemo2026!'
+    });
   }
 }
