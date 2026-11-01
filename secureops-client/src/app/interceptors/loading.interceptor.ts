@@ -6,13 +6,19 @@ import { LoadingService } from '../services/loading';
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   const loadingService = inject(LoadingService);
 
+  const isWakeupRequest = req.url.includes('/weatherforecast');
+
   // Turn on the loader when a request starts
-  loadingService.show();
+  if (!isWakeupRequest) {
+    loadingService.show();
+  }
 
   return next(req).pipe(
     finalize(() => {
       // Turn off the loader when the request completes or throws an error
-      loadingService.hide();
+      if (!isWakeupRequest) {
+        loadingService.hide();
+      }
     })
   );
 };
